@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.datasets import load_boston
+from sklearn.datasets import fetch_california_housing
 from sklearn.model_selection import train_test_split
 
 
@@ -26,7 +26,7 @@ class LinearRegression:
 # Main function
 def main():
     # Load dataset
-    data = load_boston()
+    data = fetch_california_housing()
     X, y = data.data, data.target
 
     # Split into training and test sets
@@ -43,12 +43,18 @@ def main():
     mse = np.mean((y_test - y_pred) ** 2)
     print(f"Mean Squared Error: {mse:.4f}")
 
-    # Visualize predictions vs true values
-    plt.scatter(y_test, y_pred, color='blue', label='Predictions')
+    # Sample 100 points for visualization to reduce clutter
+    sample_size = 100
+    indices = np.random.choice(len(y_test), sample_size, replace=False)
+    y_test_sample = y_test[indices]
+    y_pred_sample = y_pred[indices]
+
+    # Visualize predictions vs true values with transparency
+    plt.scatter(y_test_sample, y_pred_sample, color='blue', alpha=0.5, label='Predictions')
     plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--', label='Perfect Fit')
     plt.xlabel('True Prices')
     plt.ylabel('Predicted Prices')
-    plt.title('Linear Regression: Boston Housing Prices')
+    plt.title('Linear Regression: California Housing Prices (Sampled)')
     plt.legend()
     plt.show()
 
